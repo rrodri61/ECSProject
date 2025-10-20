@@ -66,6 +66,7 @@ def compress_text(text):
             compressed += compression_table['#']
             i += 1
     return compressed
+    
 def decompress_text(compressed):
     decompressed = ""
     buffer = ""
@@ -80,7 +81,7 @@ def decompress_text(compressed):
         decompressed += "#"
     return decompressed
 
-def run_from_file(filename): #new
+def run_from_file(filename):
     with open(filename, "r") as f:
         text = f.read()
 
