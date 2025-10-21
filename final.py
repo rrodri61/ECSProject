@@ -49,6 +49,7 @@ compression_table = {
     'ter': '101001001', 'est': '101001010', 'ers': '101001011'
 }
 
+#compression
 def compress_text(text):
     compressed = ""
     i = 0
@@ -67,6 +68,7 @@ def compress_text(text):
             i += 1
     return compressed
 
+#decompression
 def decompress_text(compressed):
     decompressed = ""
     buffer = ""
@@ -82,31 +84,36 @@ def decompress_text(compressed):
     return decompressed
 
 def run_from_file(filename):
+    #read original text
     with open(filename, "r") as f:
         text = f.read()
 
     compressed = compress_text(text)
+    total_bits = len(compressed)
+
+    #write compressed output to BinOutput.txt
+    with open("BinOutput.txt", "w") as bin_file:
+        bin_file.write(f"{total_bits}.{compressed}")
+
+    print("Compressed binary saved to BinOutput.txt")
+
     decompressed = decompress_text(compressed)
 
-    print("Compressed binary:", compressed)
-    print("Decompressed text:", decompressed)
+    #write decompressed text to TextOutput.txt
+    with open("TextOutput.txt", "w") as text_file:
+        text_file.write(decompressed)
 
+    print("Decompressed text saved to TextOutput.txt")
+
+    #accuracy & reduction
     matches = sum(1 for a, b in zip(text, decompressed) if a == b)
     accuracy = (matches / len(text)) * 100 if len(text) > 0 else 0
     print("Compression accuracy:", round(accuracy, 2), "%")
 
     original_bits = len(text) * 8
-    compressed_bits = len(compressed)
-    reduction = 100 * (1 - compressed_bits / original_bits) if original_bits > 0 else 0
+    reduction = 100 * (1 - total_bits / original_bits) if original_bits > 0 else 0
     print("Bit reduction:", round(reduction, 2), "%")
 
-    with open("output.txt", "w") as file:
-        file.write("Compressed binary:\n")
-        file.write(compressed + "\n\n")
-        file.write("Decompressed text:\n")
-        file.write(decompressed)
-
-    print("Results saved to output.txt")
 
 filename = input("Enter the file name to open: ")
 run_from_file(filename)
