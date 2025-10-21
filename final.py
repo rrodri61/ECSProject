@@ -25,8 +25,8 @@ compression_table = {
     'k': '0010111',
     'x': '0011000',
     'j': '0011001',
-    'q': '0011010',
-    'z': '0011011',
+    'v': '0011010',
+    'q': '0011011',
     'A': '0011100', 'B': '0011101', 'C': '0011110', 'D': '0011111',
     'E': '0100000', 'F': '0100001', 'G': '0100010', 'H': '0100011',
     'I': '0100100', 'J': '0100101', 'K': '0100110', 'L': '0100111',
@@ -37,7 +37,7 @@ compression_table = {
     '0': '0110110', '1': '0110111', '2': '0111000', '3': '0111001',
     '4': '0111010', '5': '0111011', '6': '0111100', '7': '0111101',
     '8': '0111110', '9': '0111111',
-    '-': '1000000', '!': '1000001', "'": '1000010', '"': '1000011',
+    '-': '1000000', '!': '1000001', "’": '1000010', '"': '1000011',
     '\n': '1000100', '#': '1000101',
     'th': '10010000', 'he': '10010001', 'in': '10010010', 'er': '10010011',
     'an': '10010100', 're': '10010101', 'on': '10010110', 'at': '10010111',
@@ -66,7 +66,7 @@ def compress_text(text):
             compressed += compression_table['#']
             i += 1
     return compressed
-    
+
 def decompress_text(compressed):
     decompressed = ""
     buffer = ""
@@ -99,6 +99,14 @@ def run_from_file(filename):
     compressed_bits = len(compressed)
     reduction = 100 * (1 - compressed_bits / original_bits) if original_bits > 0 else 0
     print("Bit reduction:", round(reduction, 2), "%")
+
+    with open("output.txt", "w") as file:
+        file.write("Compressed binary:\n")
+        file.write(compressed + "\n\n")
+        file.write("Decompressed text:\n")
+        file.write(decompressed)
+
+    print("Results saved to output.txt")
 
 filename = input("Enter the file name to open: ")
 run_from_file(filename)
